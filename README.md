@@ -28,8 +28,9 @@ setCorn(data){
 ```
 ## 参考项目
 
-[vue-cron](https://github.com/1615450788/vue-cron)
-[ant-design-vue 开发的cron表达式组件](https://blog.csdn.net/chizhuo9591/article/details/100732548)
+- [vue-cron](https://github.com/1615450788/vue-cron)
+
+- [ant-design-vue 开发的cron表达式组件](https://blog.csdn.net/chizhuo9591/article/details/100732548)
 
 ## 改进点
 
