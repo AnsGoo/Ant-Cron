@@ -7,7 +7,7 @@
 - ant-design-vue 1.4.4+
 
 ## 使用方式
-```javascript
+```html
 <a-form :form="form" @submit="handleSubmit">     
     <a-form-item
     :labelCol="labelCol"
@@ -17,8 +17,9 @@
         [{ required: true, message: '请输入cron表达式!' }]}]"  @change="setCorn"></a-cron>
     </a-form-item>
 </a-form>
-...
+```
 
+```javascript
 
 setCorn(data){
     this.$nextTick(() => {
