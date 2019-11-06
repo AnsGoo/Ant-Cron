@@ -7,7 +7,7 @@
 - ant-design-vue 1.4.4+
 
 ## 使用方式
-```
+```javascript
 <a-form :form="form" @submit="handleSubmit">     
     <a-form-item
     :labelCol="labelCol"
