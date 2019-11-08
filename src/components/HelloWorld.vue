@@ -46,9 +46,12 @@ export default {
       })
     },
     setCorn(data){
-      this.$nextTick(() => {
+      if(data !== undefined){
+        this.$nextTick(() => {
          this.form.setFieldsValue({cronExpression: data})
       })
+      }
+      
     }
   }
 }

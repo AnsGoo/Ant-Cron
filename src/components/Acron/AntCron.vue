@@ -180,8 +180,8 @@
                     <a-select-option
                       v-for="(val,index) in Array(7)"
                       :key="index"
-                      :value="index+1"
-                    >{{ weekDays[index] }}</a-select-option>
+                      :value="index-1"
+                    >{{ weekDays[index-1] }}</a-select-option>
                   </a-select>开始
                 </a-radio>
               </a-row>
@@ -213,8 +213,8 @@
                   <a-select-option
                     v-for="(val,index) in Array(7)"
                     :key="index"
-                    :value="index+1"
-                  >{{ weekDays[index] }}</a-select-option>
+                    :value="index-1"
+                  >{{ weekDays[index-1] }}</a-select-option>
                 </a-select>
               </a-row>
               <a-row>
@@ -285,7 +285,7 @@
                     <a-select-option
                       v-for="(val,index) in Array(7)"
                       :key="index"
-                      :value="index+1"
+                      :value="index"
                     >{{ weekDays[index] }}</a-select-option>
                   </a-select>
                 </a-radio>
@@ -723,14 +723,24 @@ export default {
       handler() {
         let label = this.data;
         if (label) {
-          this.secondsReverseExp(label);
-          this.minutesReverseExp(label);
-          this.hoursReverseExp(label);
-          this.daysReverseExp(label);
-          this.daysReverseExp(label);
-          this.monthsReverseExp(label);
-          this.yearReverseExp(label);
-          JSON.parse(JSON.stringify(label));
+          label = label.trim();
+          const len = label.split(" ").length;
+          switch (true) {
+            case len > 0:
+              this.secondsReverseExp(label);
+            case len > 1:
+              this.minutesReverseExp(label);
+            case len > 2:
+              this.hoursReverseExp(label);
+            case len > 3:
+              this.daysReverseExp(label);
+            case len > 4:
+              this.daysReverseExp(label);
+            case len > 5:
+              this.monthsReverseExp(label);
+            case len > 6:
+              this.yearReverseExp(label);
+          }
         } else {
           this.result = JSON.parse(JSON.stringify(this.defaultValue));
         }
@@ -751,7 +761,6 @@ export default {
     },
     secondsReverseExp(seconds) {
       let val = seconds.split(" ")[0];
-      console.log(val)
       let second = {
         cronEvery: "",
         incrementStart: 3,
@@ -783,7 +792,7 @@ export default {
           break;
         default:
           second.cronEvery = "3";
-          second.specificSpecific = [val]
+          second.specificSpecific = [val];
       }
       this.result.second = second;
     },
@@ -820,7 +829,7 @@ export default {
           break;
         default:
           minute.cronEvery = "3";
-          minute.specificSpecific = [val]
+          minute.specificSpecific = [val];
       }
       this.result.minute = minute;
     },
@@ -857,7 +866,7 @@ export default {
           break;
         default:
           hour.cronEvery = "3";
-          hour.specificSpecific = [val]
+          hour.specificSpecific = [val];
       }
       this.result.hour = hour;
     },
@@ -881,7 +890,7 @@ export default {
         incrementIncrement: 1,
         specificSpecific: [],
         cronNthDayDay: 1,
-        cronNthDayNth: "1"
+        cronNthDayNth: 1
       };
       if (!days.includes("?")) {
         switch (true) {
@@ -924,14 +933,14 @@ export default {
             break;
           default:
             day.cronEvery = "5";
-            day.specificSpecific = [days]
+            day.specificSpecific = [days];
         }
       } else {
         switch (true) {
           case weeks.includes("/"):
             day.cronEvery = "2";
-            week.incrementStart = weeks.split("/")[0];
-            week.incrementIncrement = weeks.split("/")[1];
+            week.incrementStart = parseInt(weeks.split("/")[0]);
+            week.incrementIncrement = parseInt(weeks.split("/")[1]);
             break;
           case weeks.includes(","):
             day.cronEvery = "4";
@@ -940,15 +949,20 @@ export default {
               .map(Number)
               .sort();
             break;
-          case "#":
+          case weeks.includes("#"):
             day.cronEvery = "11";
-            week.cronNthDayDay = weeks.split("#")[0];
-            week.cronNthDayNth = weeks.split("#")[1];
+            week.cronNthDayDay = parseInt(weeks.split("#")[0]);
+            week.cronNthDayNth = parseInt(weeks.split("#")[1]);
             break;
+          // case weeks.includes("-"):
+          //   day.cronEvery = "11";
+          //   week.cronNthDayDay = parseInt(weeks.split("#")[0]);
+          //   week.cronNthDayNth = parseInt(weeks.split("#")[1]);
+          //   break;
           default:
             day.cronEvery = "4";
             week.cronEvery = "4";
-            week.specificSpecific = [weeks]
+            week.specificSpecific = [parseInt(weeks)];
         }
       }
       this.result.day = day;
@@ -986,8 +1000,8 @@ export default {
           month.rangeEnd = months.split("-")[1];
           break;
         default:
-          month.cronEvery = "4";
-          month.specificSpecific = [months]
+          month.cronEvery = "3";
+          month.specificSpecific = [months];
       }
       this.result.month = month;
     },
@@ -1001,8 +1015,7 @@ export default {
         rangeEnd: curYear,
         specificSpecific: []
       };
-      console.log(years)
-      if (years !== undefined){
+      if (years !== undefined) {
         switch (true) {
           case years.includes("*"):
             year.cronEvery = "1";
@@ -1026,11 +1039,11 @@ export default {
             break;
           default:
             year.cronEvery = "3";
-            year.specificSpecific = [years]
+            year.specificSpecific = [years];
         }
       } else {
         year.cronEvery = "1";
-        }
+      }
       this.result.year = year;
     }
   }
